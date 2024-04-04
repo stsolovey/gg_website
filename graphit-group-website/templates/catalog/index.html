@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        {% for catalog in catalogs %}
+        <div class="col-md-2">
+            <div class="" style="">
+                <img src="{{ catalog.image.url }}" class="img-thumbnail" alt="{{ catalog.name }}">
+                <div class="card-body">
+                    <p  class="card-title">{{ catalog.name }}</p>
+                    <p class="card-text">{{ catalog.manufacturer.name }}</p>
+                </div>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:5 and not forloop.last %}
+        </div><div class="row">
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
