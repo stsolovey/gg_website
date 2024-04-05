@@ -5,10 +5,15 @@
     <div class="row">
         {% for catalog in catalogs %}
         <div class="col-md-2">
-            <div class="" style="">
-                <img src="{{ catalog.image.url }}" class="img-thumbnail" alt="{{ catalog.name }}">
+            <div class="">
+                <!-- Ссылка на страницу деталей каталога -->
+                <a href="{% url 'catalog_detail' catalog.id %}">
+                    <img src="{{ catalog.image.url }}" class="img-thumbnail" alt="{{ catalog.name }}">
+                    <div class="card-body">
+                        <p class="card-title">{{ catalog.name }}</p>
+                    </div>
+                </a>
                 <div class="card-body">
-                    <p  class="card-title">{{ catalog.name }}</p>
                     <p class="card-text">{{ catalog.manufacturer.name }}</p>
                 </div>
             </div>

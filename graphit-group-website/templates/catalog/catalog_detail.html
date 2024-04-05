@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ catalog.name }}</h1>
+
+    <div class="container mb-2">
+        <button id="prev" type="button" class="btn btn-secondary"><< Назад</button>
+        <button id="next" type="button" class="btn btn-secondary">Вперёд >></button>
+        <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+        <button id="zoomin" type="button" class="btn btn-secondary">++ Zoom In</button>
+        <button id="zoomout" type="button" class="btn btn-secondary">Zoom Out --</button>
+    </div>
+
+    <div id="pdf-viewer"></div>
+
+    <div class="container">
+        <button id="prev2" type="button" class="btn btn-secondary"><< Назад</button>
+        <button id="next2" type="button" class="btn btn-secondary">Вперёд >></button>
+        
+        <button id="zoomin2" type="button" class="btn btn-secondary">++ Zoom In</button>
+        <button id="zoomout2" type="button" class="btn btn-secondary">Zoom Out --</button>
+    </div>
+</div>
+<script src="{% static "js/pdfjs/pdf.js" %}"></script>
+<script>
+  let pdf = null;
+  let currentPage = 1;
+  let zoomLevel = 1.0;
+  let canvas = document.createElement('canvas');
+  let context = canvas.getContext('2d');
+  document.getElementById('pdf-viewer').appendChild(canvas);
+
+  // Event listeners
+    document.getElementById('prev').addEventListener('click', onPrevPage);
+    document.getElementById('next').addEventListener('click', onNextPage);
+    document.getElementById('zoomin').addEventListener('click', onZoomIn);
+    document.getElementById('zoomout').addEventListener('click', onZoomOut);
+    document.getElementById('prev2').addEventListener('click', onPrevPage);
+    document.getElementById('next2').addEventListener('click', onNextPage);
+    document.getElementById('zoomin2').addEventListener('click', onZoomIn);
+    document.getElementById('zoomout2').addEventListener('click', onZoomOut);
+
+  function onPrevPage() {
+    if (currentPage <= 1) {
+      return;
+    }
+    currentPage--;
+    renderPage(currentPage);
+  }
+
+  function onNextPage() {
+    if (!pdf || currentPage >= pdf.numPages) {
+      return;
+    }
+    currentPage++;
+    renderPage(currentPage);
+  }
+
+  function onZoomIn() {
+    zoomLevel *= 1.1;
+    renderPage(currentPage);
+  }
+
+  function onZoomOut() {
+    zoomLevel *= 0.9;
+    renderPage(currentPage);
+  }
+
+  function renderPage(pageNumber) {
+    pdf.getPage(pageNumber).then(function(page) {
+      var viewport = page.getViewport({scale: zoomLevel});
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      var renderContext = {canvasContext: context, viewport: viewport};
+      page.render(renderContext);
+      document.getElementById('page_num').textContent = pageNumber;
+      document.getElementById('page_count').textContent = pdf.numPages;
+    });
+  }
+
+  // PDF loading
+  if (pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '{% static "js/pdfjs/pdf.worker.js" %}';
+    const url = '{{ catalog.pdf_file.url }}';
+    pdfjsLib.getDocument(url).promise.then(function(loadedPdf) {
+      pdf = loadedPdf;
+      renderPage(currentPage);
+    });
+  } else {
+    console.error("pdfjsLib is not loaded.");
+  }
+</script>
+{% endblock %}
