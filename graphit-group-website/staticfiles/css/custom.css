@@ -1,0 +1,25 @@
+figure.image img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin: 0 10px; /* Добавляет горизонтальный отступ между элементами списка */
+}
+
+.footer-links a {
+    color: #fff; /* Измените цвет ссылок, если необходимо */
+    text-decoration: none; /* Убирает подчеркивание у ссылок */
+}
+
+.footer-links a:hover {
+    text-decoration: underline; /* Добавляет подчеркивание при наведении */
+}

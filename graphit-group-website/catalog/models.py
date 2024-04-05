@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils.text import slugify
+from django_ckeditor_5.fields import CKEditor5Field
+
 
 class Category(models.Model):
     image = models.ImageField(upload_to='categories/')
@@ -25,3 +28,16 @@ class ProductCatalog(models.Model):
 
     def __str__(self):
         return self.name
+
+class BasePage(models.Model):
+    title = models.CharField(max_length=200)
+    body = CKEditor5Field('Content', config_name='default')
+    url = models.SlugField(max_length=200, unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.url:
+            self.url = slugify(self.title)
+        super(BasePage, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
