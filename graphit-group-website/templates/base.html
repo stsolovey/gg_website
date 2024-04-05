@@ -32,30 +32,37 @@
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04" aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
+              
               <div class="collapse navbar-collapse" id="navbarColor04">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Категории</a>
-                        <div class="dropdown-menu">
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                    </li>
+                  <!-- Категории -->
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Производители</a>
+                    <a class="nav-link dropdown-toggle category-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Категории</a>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
+                      <a class="dropdown-item category-item" href="#" data-category="all">Все категории</a>
+                      {% for category in categories %}
+                      <a class="dropdown-item category-item" href="#" data-category="{{ category.id }}">{{ category.name }}</a>
+                      {% endfor %}
                     </div>
                   </li>
+                  <!-- Производители -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle manufacturer-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Производители</a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item manufacturer-item" href="#" data-manufacturer="all">Все производители</a>
+                      {% for manufacturer in manufacturers %}
+                      <a class="dropdown-item manufacturer-item" href="#" data-manufacturer="{{ manufacturer.id }}">{{ manufacturer.name }}</a>
+                      {% endfor %}
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <a class="btn btn-secondary" href="/?category=all&manufacturer=all">Сбросить фильтры</a>
+                  </li>
                 </ul>
+                <!-- Кнопка сброса фильтров -->
+                
               </div>
+              
             </div>
           </nav>
     </header>
@@ -71,6 +78,46 @@
             © 2024 Аналитэксперт: <a class="text-dark" href="#">analytexpert.pro</a>
         </div>
     </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        function updateDropdownText() {
+          const currentCategory = new URLSearchParams(window.location.search).get('category');
+          const currentManufacturer = new URLSearchParams(window.location.search).get('manufacturer');
+          const categoryText = currentCategory && currentCategory !== 'all' ? document.querySelector(`.category-item[data-category="${currentCategory}"]`).textContent : "Категории";
+          const manufacturerText = currentManufacturer && currentManufacturer !== 'all' ? document.querySelector(`.manufacturer-item[data-manufacturer="${currentManufacturer}"]`).textContent : "Производители";
+    
+          document.querySelector('.category-toggle').textContent = categoryText;
+          document.querySelector('.manufacturer-toggle').textContent = manufacturerText;
+        }
+    
+        // Обновляем текст при загрузке
+        updateDropdownText();
+    
+        // Обработка выбора категории
+        document.querySelectorAll('.category-item').forEach(item => {
+          item.addEventListener('click', event => {
+            const categoryName = event.target.textContent;
+            const categoryId = event.target.getAttribute('data-category');
+            const manufacturerId = new URLSearchParams(window.location.search).get('manufacturer') || 'all';
+            document.querySelector('.category-toggle').textContent = categoryName;
+            window.location.href = `/?category=${categoryId}&manufacturer=${manufacturerId}`;
+          });
+        });
+    
+        // Обработка выбора производителя
+        document.querySelectorAll('.manufacturer-item').forEach(item => {
+          item.addEventListener('click', event => {
+            const manufacturerName = event.target.textContent;
+            const manufacturerId = event.target.getAttribute('data-manufacturer');
+            const categoryId = new URLSearchParams(window.location.search).get('category') || 'all';
+            document.querySelector('.manufacturer-toggle').textContent = manufacturerName;
+            window.location.href = `/?category=${categoryId}&manufacturer=${manufacturerId}`;
+          });
+        });
+      });
+    </script>
+    
 
     <!-- Подключение Bootstrap JS и зависимостей -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
