@@ -1,3 +1,8 @@
+"""
+This module contains the settings for the Django project `analytexpert`.
+It includes configurations for database connections, static files, security parameters, and more.
+"""
+
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -18,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-_^332yl+buh#8wa+4oxpctg(@%#c1y$e)pi=mw4^g%-b6r-tsj"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
@@ -152,7 +157,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-
 customColorPalette = [
         {
             'color': 'hsl(4, 90%, 58%)',
@@ -193,11 +197,14 @@ CKEDITOR_5_CONFIGS = {
             '|',
             'blockQuote',
         ],
-        'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
-        'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
-                    'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
-                    'insertTable',],
+        'toolbar': ['heading', '|', 'outdent', 'indent', '|', 
+        'bold', 'italic', 'link', 'underline', 'strikethrough',
+        'code','subscript', 'superscript', 'highlight', '|', 
+        'codeBlock', 'sourceEditing', 'insertImage', 
+        'bulletedList', 'numberedList', 'todoList', 
+        '|',  'blockQuote', 'imageUpload', '|', 'fontSize', 
+        'fontFamily', 'fontColor', 'fontBackgroundColor', 
+        'mediaEmbed', 'removeFormat', 'insertTable',],
         'image': {
             'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
                         'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
@@ -224,10 +231,14 @@ CKEDITOR_5_CONFIGS = {
         },
         'heading' : {
             'options': [
-                { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
-                { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
-                { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
-                { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
+                { 'model': 'paragraph', 'title': 'Paragraph',
+                 'class': 'ck-heading_paragraph' },
+                { 'model': 'heading1', 'view': 'h1',
+                 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
+                { 'model': 'heading2', 'view': 'h2',
+                 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
+                { 'model': 'heading3', 'view': 'h3',
+                 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
             ]
         }
     },

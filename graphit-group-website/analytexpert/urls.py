@@ -1,3 +1,7 @@
+"""
+This module contains urls for the Django project `analytexpert`.
+"""
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin

@@ -43,7 +43,9 @@ down: down-deps
 
 # Линтеры
 pylint:
-	pylint --load-plugins pylint_django graphit-group-website/
+# pylint --load-plugins pylint_django graphit-group-website/
+	pylint --load-plugins=pylint_django --django-settings-module=analytexpert.settings --disable=missing-module-docstring,missing-class-docstring,missing-function-docstring graphit-group-website/
+
 
 flake8:
 	flake8 graphit-group-website/

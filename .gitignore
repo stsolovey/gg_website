@@ -43,3 +43,9 @@ venv/
 
 # Environment variables
 .env
+
+# Minio
+
+../minio.deb
+./minio.deb
+minio.deb

@@ -37,7 +37,7 @@ class BasePage(models.Model):
     def save(self, *args, **kwargs):
         if not self.url:
             self.url = slugify(self.title)
-        super(BasePage, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
