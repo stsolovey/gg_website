@@ -23,3 +23,7 @@ contacts-bar li, .footer-links li {
 .footer-links a:hover {
     text-decoration: underline; /* Добавляет подчеркивание при наведении */
 }
+
+ul.contacnts-bar {
+    color: red;
+}
