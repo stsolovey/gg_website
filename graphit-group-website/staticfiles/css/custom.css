@@ -3,27 +3,21 @@ figure.image img {
     height: auto;
 }
 
-
-contacts-bar, .footer-links {
+.contacnts-bar, .footer-links {
     display: flex;
     justify-content: center;
     list-style: none;
     padding: 0;
 }
 
-contacts-bar li, .footer-links li {
+.contacnts-bar li, .footer-links li {
     margin: 0 10px; /* Добавляет горизонтальный отступ между элементами списка */
 }
 
 .footer-links a {
-    color: #fff; /* Измените цвет ссылок, если необходимо */
+    color: #000000; /* Измените цвет ссылок, если необходимо */
     text-decoration: none; /* Убирает подчеркивание у ссылок */
 }
-
 .footer-links a:hover {
     text-decoration: underline; /* Добавляет подчеркивание при наведении */
-}
-
-ul.contacnts-bar {
-    color: red;
 }
