@@ -4,14 +4,14 @@ figure.image img {
 }
 
 
-.footer-links {
+contacts-bar, .footer-links {
     display: flex;
     justify-content: center;
     list-style: none;
     padding: 0;
 }
 
-.footer-links li {
+contacts-bar li, .footer-links li {
     margin: 0 10px; /* Добавляет горизонтальный отступ между элементами списка */
 }
 
