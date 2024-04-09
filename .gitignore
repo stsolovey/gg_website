@@ -23,6 +23,8 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+.metals/
+.metals
 
 # Django stuff:
 *.log
